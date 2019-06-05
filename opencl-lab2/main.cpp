@@ -10,7 +10,7 @@
 #include <iterator>
 
 int n;
-size_t const BLOCK_SIZE = 4;
+size_t const BLOCK_SIZE = 256;
 
 int recursive_scan_per_block(float *output, cl::Buffer &dev_in, cl::Buffer &dev_out, cl::Program &scan_program, cl::CommandQueue &queue) {
     int depth = 1;
