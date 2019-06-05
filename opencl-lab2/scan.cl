@@ -8,11 +8,10 @@ __kernel void scan_hillis_steele_per_block(__global float *input, __global float
     uint block_size = get_local_size(0);
     uint block_end_ind = (gid + 1) * depth - 1;
 
-    if (block_end_ind >= n) {
-        return;
+	if (block_end_ind < n) {
+   		a[lid] = b[lid] = input[block_end_ind];
     }
 
-    a[lid] = b[lid] = input[block_end_ind];
     barrier(CLK_LOCAL_MEM_FENCE);
 
     for (uint s = 1; s < block_size; s <<= 1) {
@@ -28,7 +27,9 @@ __kernel void scan_hillis_steele_per_block(__global float *input, __global float
         SWAP(a,b);
     }
 
-    output[block_end_ind] = a[lid];
+	if (block_end_ind < n) {
+    	output[block_end_ind] = a[lid];
+	}
 }
 
 
@@ -39,13 +40,9 @@ __kernel void scan_hillis_steele_propagation(__global float *input, __global flo
     uint block_size = get_local_size(0);
     uint block_end_ind = (gid + 1) * depth - 1;
 
-    if (block_end_ind < depth * block_size) {
-    	return;
-    }
-
     __local float cur_pref_sum;
 
-    if (lid == 0) {
+    if (lid == 0 && block_end_ind >= depth * block_size) {
         cur_pref_sum = input[block_end_ind - (block_end_ind % (depth * block_size)) - 1];
     }
 
