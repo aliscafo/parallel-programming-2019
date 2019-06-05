@@ -1,8 +1,6 @@
 #define SWAP(a,b) {__local int * tmp=a; a=b; b=tmp;}
 
-__kernel void scan_hillis_steele_per_block(__global float *input, __global float *output, 
-											int n, int depth, 
-                                           __local float *a, __local float *b) {
+__kernel void scan_hillis_steele_per_block(__global float *input, __global float *output, int n, int depth, __local float *a, __local float *b) {
     uint gid = get_global_id(0);
     uint lid = get_local_id(0);
     uint block_size = get_local_size(0);
@@ -33,8 +31,7 @@ __kernel void scan_hillis_steele_per_block(__global float *input, __global float
 }
 
 
-__kernel void scan_hillis_steele_propagation(__global float *input, __global float *output,
-											 int n, int depth) {
+__kernel void scan_hillis_steele_propagation(__global float *input, __global float *output, int n, int depth) {
     uint gid = get_global_id(0);
     uint lid = get_local_id(0);
     uint block_size = get_local_size(0);
