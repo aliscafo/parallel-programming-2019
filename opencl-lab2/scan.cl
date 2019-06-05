@@ -6,7 +6,7 @@ __kernel void scan_hillis_steele_per_block(__global float *input, __global float
     uint block_size = get_local_size(0);
     uint block_end_ind = (gid + 1) * depth - 1;
 
-	if (block_end_ind < n) {
+    if (block_end_ind < n) {
    		a[lid] = b[lid] = input[block_end_ind];
     }
 
@@ -25,9 +25,9 @@ __kernel void scan_hillis_steele_per_block(__global float *input, __global float
         SWAP(a,b);
     }
 
-	if (block_end_ind < n) {
+    if (block_end_ind < n) {
     	output[block_end_ind] = a[lid];
-	}
+    }
 }
 
 
