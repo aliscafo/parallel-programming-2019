@@ -7,7 +7,7 @@ __kernel void scan_hillis_steele_per_block(__global float *input, __global float
     uint block_end_ind = (gid + 1) * depth - 1;
 
     if (block_end_ind < n) {
-   		a[lid] = b[lid] = input[block_end_ind];
+   	    a[lid] = b[lid] = input[block_end_ind];
     }
 
     barrier(CLK_LOCAL_MEM_FENCE);
